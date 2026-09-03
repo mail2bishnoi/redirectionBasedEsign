@@ -1,8 +1,9 @@
 package in.gov.rajasthan.risl.esignRedirection.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -28,14 +29,20 @@ import org.springframework.web.multipart.MultipartFile;
  * the exact transport format (multipart vs base64 vs stream) has not been
  * finalized. This will be revisited once that's confirmed.
  */
-@Getter
-@Setter
-@ToString
+@Data
+@Entity
 public class MerchantRequestLog {
 
-    private String aspId;
+    @Id
+    private String requestId;
+
     private String applicationId;
+    private String aspId;
     private String version;
+
+    @Lob
     private String encryptedData;
-    private MultipartFile pdfFile;
+
+    private String pdfHash;      // SHA-256 of original PDF
+    private String pdfTempPath;
 }
